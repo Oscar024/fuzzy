@@ -34,6 +34,8 @@ d=40;
 Lb=-1*ones(1,d);
 Ub=1*ones(1,d);
 
+parada=0.05;
+
 sys= find_system('Name','ProbotISCI2016');
 open_system('ProbotISCI2016');
 set_param(gcs,'SimulationCommand','start');
@@ -92,9 +94,9 @@ for t=1:N_iter,
           pause(1);
           % Evaluate new solutions
            Fnew=Fun(S(i,:),data);
-%            if (Fnew<0.005)
-%                 break
-%            end
+           if (Fnew<parada)
+                break
+           end
 %            Fnew=Fun(S(i,:));
           % If fitness improves (better solutions found), update then
             if (Fnew<=Fitness(i)),
@@ -116,9 +118,9 @@ for t=1:N_iter,
         best
         fmin
         end
-%         if (Fnew<0.005)
-%                 break
-%         end
+        if (Fnew<parada)
+                break
+        end
 end
 plot(XY.signals.values(:,1),XY.signals.values(:,2),xDyD.signals.values(:,1),xDyD.signals.values(:,2));
 % Output/display
